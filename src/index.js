@@ -13,17 +13,21 @@ class Board extends React.Component{
 
     handleClick(i){
         const dupSquares = this.state.squares.slice();
-        dupSquares[i] = this.state.isXNext? "X" : "O";
-        this.setState({squares:dupSquares, isXNext: !this.state.isXNext} );
-        var winner = calculateWinner(dupSquares)
-        if(winner)
-        {
-            this.setState({playerStatus: "Winner is " + winner})
+        if(dupSquares[i]==null && calculateWinner(dupSquares)==null){
+            dupSquares[i] = this.state.isXNext? "X" : "O";
+            this.setState({squares:dupSquares, isXNext: !this.state.isXNext} );
+            let winner = calculateWinner(dupSquares);
+            if(winner)
+            {
+                this.setState({playerStatus: "Winner is " + winner})
+
+            }
+            else
+            {
+                this.setState({playerStatus: this.state.isXNext?"O" : "X"})
+            }
         }
-        else
-        {
-            this.setState({playerStatus: this.state.isXNext?"O" : "X"})
-        }
+
     }
 
     render(){
