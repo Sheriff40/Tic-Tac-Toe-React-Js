@@ -3,27 +3,38 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Board extends React.Component{
-    renderSquare(){
-        return <Square/>
+    constructor(){
+        super();
+        this.state ={squares: Array(9).fill(null)}
     }
+    renderSquare(i){
+        return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)}/>
+    }
+
+    handleClick(i){
+        const dupSquares = this.state.squares.slice();
+        dupSquares[i] = "X";
+        this.setState({squares:dupSquares})
+    }
+
     render(){
         return(
             <div>
                 <div>Next player {this.props.value}</div>
                 <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare(0)}
+                    {this.renderSquare(1)}
+                    {this.renderSquare(2)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare(3)}
+                    {this.renderSquare(4)}
+                    {this.renderSquare(5)}
                 </div>
                 <div className="board-row">
-                    {this.renderSquare()}
-                    {this.renderSquare()}
-                    {this.renderSquare()}
+                    {this.renderSquare(6)}
+                    {this.renderSquare(7)}
+                    {this.renderSquare(8)}
                 </div>
             </div>
         )
@@ -40,27 +51,12 @@ class Game extends React.Component{
     }
 }
 
-class Square extends React.Component{
-    constructor(){
-        super();
-        this.state = {value: null}
-    }
-
-    // changeState(){
-    //     // this.setState({value:"X"})
-    //     return(
-    //         <div>
-    //             <Board status={this.state.value}/>
-    //             {console.log(this.state.value)}
-    //         </div>
-    //
-    //     )
-    // }
-    render(){
-        return(
-            <button className="square" onClick={()=>this.setState({value:"X"})}>{this.state.value}</button>
-        )
-    }
+function Square(props) {
+    return(
+        <button className="square" onClick={()=>props.onClick()}>{props.value}</button>
+    )
 }
+
+
 
 ReactDOM.render(<Game/>, document.getElementById('root'));
