@@ -5,7 +5,7 @@ import './index.css';
 class Board extends React.Component{
     constructor(){
         super();
-        this.state ={squares: Array(9).fill(null), isXNext: true}
+        this.state ={squares: Array(9).fill(null), isXNext: true, playerStatus: "X"}
     }
     renderSquare(i){
         return <Square value={this.state.squares[i]} onClick={()=>this.handleClick(i)}/>
@@ -15,12 +15,21 @@ class Board extends React.Component{
         const dupSquares = this.state.squares.slice();
         dupSquares[i] = this.state.isXNext? "X" : "O";
         this.setState({squares:dupSquares, isXNext: !this.state.isXNext} );
+        var winner = calculateWinner(dupSquares)
+        if(winner)
+        {
+            this.setState({playerStatus: "Winner is " + winner})
+        }
+        else
+        {
+            this.setState({playerStatus: this.state.isXNext?"O" : "X"})
+        }
     }
 
     render(){
         return(
             <div>
-                <div>Next player {this.state.isXNext? "X" : "O"}</div>
+                <div>{this.state.playerStatus}</div>
                 <div className="board-row">
                     {this.renderSquare(0)}
                     {this.renderSquare(1)}
@@ -57,6 +66,24 @@ function Square(props) {
     )
 }
 
-
+function calculateWinner(squares) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
+    }
+    return null;
+}
 
 ReactDOM.render(<Game/>, document.getElementById('root'));
