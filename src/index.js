@@ -7,10 +7,8 @@ class Board extends React.Component{
         return <Square/>
     }
     render(){
-        // const status = this.props.value;
         return(
             <div>
-                {console.log("hi")}
                 <div>Next player {this.props.value}</div>
                 <div className="board-row">
                     {this.renderSquare()}
@@ -45,22 +43,22 @@ class Game extends React.Component{
 class Square extends React.Component{
     constructor(){
         super();
-        this.state = {value: "X"}
+        this.state = {value: null}
     }
 
-    changeState(){
-        // this.setState({value:"X"})
-        return(
-            <div>
-                <Board status={this.state.value}/>
-                {console.log(this.state.value)}
-            </div>
-
-        )
-    }
+    // changeState(){
+    //     // this.setState({value:"X"})
+    //     return(
+    //         <div>
+    //             <Board status={this.state.value}/>
+    //             {console.log(this.state.value)}
+    //         </div>
+    //
+    //     )
+    // }
     render(){
         return(
-            <button className="square" onClick={()=>this.changeState()}>{this.state.value}</button>
+            <button className="square" onClick={()=>this.setState({value:"X"})}>{this.state.value}</button>
         )
     }
 }
